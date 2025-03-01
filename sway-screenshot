@@ -55,14 +55,14 @@ function save_geometry() {
         local output="$SAVE_FULLPATH"
         # Trim transparent pixels, in case the window was floating and partially
         # outside the monitor
-        convert $output -trim +repage $output
+        magick $output -trim +repage $output
         wl-copy < "$output"
         send_notification $output
         [ -z "$COMMAND" ] || {
             "$COMMAND" "$output"
         }
     else
-        wl-copy < <(grim -g "${1}" - | convert - -trim +repage -)
+        wl-copy < <(grim -g "${1}" - | magick - -trim +repage -)
     fi
 }
 
@@ -153,7 +153,7 @@ fi
 CLIPBOARD=0
 DEBUG=0
 SILENT=0
-FILENAME="$(date +'%Y-%m-%d-%H%M%S_sway-screenshot.png')"
+FILENAME="$(date +'Sway-screenshot_%Y-%m-%d-%H:%M:%S.png')"
 [ -z "$SWAY_SCREENSHOT_DIR" ] && SAVEDIR=${XDG_PICTURES_DIR:=~} || SAVEDIR=${SWAY_SCREENSHOT_DIR}
 
 args $0 "$@"
